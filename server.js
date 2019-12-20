@@ -155,7 +155,7 @@ app.delete("/api/colors/:id", authenticator, (req, res) => {
 });
 
 app.get("/", function(req, res) {
-  res.send("App is working 👍");
+  res.send("App is working 👍 and this is proof");
 });
 
 app.listen(5000, () => {
