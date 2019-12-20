@@ -27,10 +27,10 @@ const ColorList = ({ colors, updateColors }, props) => {
     axiosWithAuth()
       .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
-        console.log('Res saveEdit: ', res)
-        updateColors(res.data)
-        console.log('Colors',colors)
-        //props.history.push('http://localhost:5000/api/')
+        const newColor = colors.map((item) => item.id === res.data.id ? res.data : item)
+        // console.log('Res saveEdit: ', res)
+        updateColors(newColor)
+        // console.log('Colors',colors)
         })
       .catch(err => console.log(err))
   };
@@ -38,9 +38,14 @@ const ColorList = ({ colors, updateColors }, props) => {
   const deleteColor = color => {
     // make a delete request to delete this color
     axiosWithAuth()
-      .delete(`http://localhost:5000/api/colors/${colorToEdit.id}`)
-      .then(res => console.log('Delete confirmed', res))
-      .catch(err => console.log(err))
+      .delete(`http://localhost:5000/api/colors/${color.id}`)
+        .then(res => {
+          //console.log('Delete confirmed', res.data)
+          const noMoreColor = colors.filter((item) => item.id !== res.data)
+          //console.log('Nom more color',noMoreColor)
+          updateColors(noMoreColor)
+          })
+        .catch(err => console.log(err))
   };
 
   return (
